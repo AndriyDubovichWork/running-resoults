@@ -8,7 +8,7 @@ interface IChooseUser {
 
 const ChooseUser = ({ user, setUser }: IChooseUser) => {
   return (
-    <FormControl sx={{ width: '200px' }}>
+    <FormControl sx={{ width: '200px', margin: '0 auto' }}>
       <InputLabel id='demo-simple-select-label'>User</InputLabel>
       <Select
         labelId='demo-simple-select-label'

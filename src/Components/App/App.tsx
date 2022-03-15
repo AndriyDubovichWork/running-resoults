@@ -1,19 +1,99 @@
-import React, { useEffect } from 'react';
-import Picker from '../Picker/Picker';
+import React, { useEffect, useState } from 'react';
 import style from './App.module.css';
 import moment from 'moment';
-import { TextField } from '@mui/material';
-import { getData, AddRunningData } from './../../Data/data';
-import ChooseUser from '../ChooseUser/ChooseUser';
+//@ts-ignore
+import * as deepcopy from 'deepcopy';
+import {
+  getData,
+  AddRunningData,
+  getMultipleData,
+  GetLapsSum,
+} from './../../Data/data';
+
+import AddRunningDataComponent from '../AddRunningData/AddRunningData';
+import { Select, MenuItem } from '@mui/material';
+import Chart from '../Chart/Chart';
+
+import ReturnRung from '../../helper/returnRung';
+//@ts-ignore
+import Header from '../Header/Header';
 
 function App() {
-  const [date, setDate] = React.useState<Date>(new Date(moment().format()));
+  //State
 
-  const [laps, setLaps] = React.useState<string>('');
+  const [date, setDate] = useState<Date>(new Date(moment().format()));
 
-  const [km, setKm] = React.useState<string>('');
+  const [laps, setLaps] = useState('');
 
-  const [user, setUser] = React.useState<string>('Andriy');
+  const [pullUps, setPullUps] = useState('');
+
+  const [km, setKm] = useState('');
+
+  const [user, setUser] = useState('Andriy');
+
+  const [lapsSum, setLapsSum] = useState(GetLapsSum(user));
+
+  const [Runk, setRunk] = useState(ReturnRung(lapsSum).Rung);
+  const [RunkPrecentage, setRunkPrecentage] = useState(
+    ReturnRung(lapsSum).precent
+  );
+  const [UserData, setUserData] = useState({
+    labels: [1, 2],
+    datasets: [
+      {
+        label: 'hi',
+        data: [5, 50],
+        backgroundColor: [
+          'rgba(75,192,192,1)',
+          '#ecf0f1',
+          '#50AF95',
+          '#f3ba2f',
+          '#2a71d0',
+        ],
+        borderColor: 'black',
+        borderWidth: 2,
+      },
+    ],
+  });
+  const [IsSideBarOpen, setIsSideBarOpen] = useState(false);
+
+  useEffect(() => {
+    const data = getMultipleData(user);
+    //if Find data in DataBase
+    if (data) {
+      setUserData({
+        labels: data.map((run: any) => run.date),
+        datasets: [
+          {
+            label: 'km',
+            data: data.map((run: any) => run.km),
+            backgroundColor: ['red'],
+            borderColor: 'red',
+            borderWidth: 2,
+          },
+          {
+            label: 'laps',
+            data: data.map((run: any) => run.laps),
+            backgroundColor: ['yellow'],
+            borderColor: 'yellow',
+            borderWidth: 2,
+          },
+          {
+            label: "Pull Up's",
+            data: data.map((run: any) => run.pullUps),
+            backgroundColor: ['blue'],
+            borderColor: 'blue',
+            borderWidth: 2,
+          },
+        ],
+      });
+    }
+    setLapsSum(GetLapsSum(user));
+
+    setRunk(ReturnRung(lapsSum).Rung);
+
+    setRunkPrecentage(ReturnRung(lapsSum).precent);
+  }, [date, user, km, laps, pullUps, IsSideBarOpen]);
 
   useEffect(() => {
     let data: any = {};
@@ -24,18 +104,27 @@ function App() {
     }
     if (data) {
       // console.log(data);
+      setPullUps(data.pullUps);
       setLaps(data.laps);
       setKm(data.km);
     }
-  }, [date]);
+  }, [date, user]);
+
+  //Handlers
+  const PullUpsHandler = (e: any) => {
+    if (e.target.value.length <= 3) {
+      setPullUps(e.target.value);
+    }
+  };
   const LapsHandler = (e: any) => {
-    if (e.target.value.length < 5) {
+    if (e.target.value.length <= 3) {
       setLaps(e.target.value);
       setKm(String(Math.round(parseInt(e.target.value) * 0.168 * 100) / 100));
     }
   };
+
   const KMHandler = (e: any) => {
-    if (e.target.value.length < 4) {
+    if (e.target.value.length <= 2) {
       setKm(e.target.value);
       setLaps(
         String(
@@ -44,37 +133,47 @@ function App() {
       );
     }
   };
+  //Add data from forms to Local storage
   const AddToDB = () => {
     AddRunningData({
+      pullUps: parseInt(pullUps),
       laps: parseInt(laps),
       km: parseInt(km),
       date: typeof date !== 'string' ? date.toISOString().split('T')[0] : date,
       user: user,
     });
+    setIsSideBarOpen(!IsSideBarOpen);
   };
+  //JSX
   return (
     <div className={style.App}>
-      <ChooseUser user={user} setUser={setUser} />
-      <Picker value={date} setValue={setDate} />
-      <TextField
-        sx={{ width: '200px' }}
-        variant='outlined'
-        label='laps'
-        value={laps}
-        type={'number'}
-        onChange={LapsHandler}
-      />
-      <TextField
-        sx={{ width: '200px' }}
-        variant='outlined'
-        label='km'
-        value={km}
-        type={'number'}
-        onChange={KMHandler}
-      />
-      <button onClick={AddToDB} disabled={!laps || !km || !date}>
-        save
-      </button>
+      <div className={style.Header}>
+        <Header
+          IsSideBarOpen={IsSideBarOpen}
+          setIsSideBarOpen={setIsSideBarOpen}
+          lapsSum={lapsSum}
+          Runk={Runk}
+          RunkPrecentage={RunkPrecentage}
+        >
+          <AddRunningDataComponent
+            user={user}
+            setUser={setUser}
+            date={date}
+            setDate={setDate}
+            laps={laps}
+            pullUps={pullUps}
+            PullUpsHandler={PullUpsHandler}
+            LapsHandler={LapsHandler}
+            km={km}
+            KMHandler={KMHandler}
+            AddToDB={AddToDB}
+          />
+        </Header>
+      </div>
+
+      <div className={style.Chart}>
+        <Chart UserData={UserData} />
+      </div>
     </div>
   );
 }

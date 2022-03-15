@@ -1,4 +1,5 @@
 import * as React from 'react';
+import style from './Picker.module.css';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -22,19 +23,24 @@ const Picker = (props: IPicker) => {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Stack spacing={3}>
-        <MobileDatePicker
-          label=''
-          inputFormat='dd/MM/yyyy'
-          value={props.value}
-          onChange={handleChange}
-          renderInput={(params) => (
-            <TextField {...params} sx={{ width: '200px' }} />
-          )}
-        />
-      </Stack>
-    </LocalizationProvider>
+    <div className={style.picker}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Stack spacing={3}>
+          <MobileDatePicker
+            label=''
+            inputFormat='dd/MM/yyyy'
+            value={props.value}
+            onChange={handleChange}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                sx={{ width: '200px', margin: '0 auto' }}
+              />
+            )}
+          />
+        </Stack>
+      </LocalizationProvider>
+    </div>
   );
 };
 export default Picker;

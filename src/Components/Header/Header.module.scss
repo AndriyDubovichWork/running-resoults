@@ -1,0 +1,59 @@
+.addButton {
+  font-size: 30px;
+  border: 2px solid #000;
+  border-radius: 8px;
+  font-weight: 800;
+  padding: 5px;
+  margin: 10px;
+}
+
+.addButton:hover {
+  background-color: rgb(204, 204, 204);
+}
+.header {
+  background-color: #000;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.addButtonDiv {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.ProgressBar {
+  color: #fff;
+
+  grid-area: 1 / 2 / 2 / 6;
+
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 10fr) 3fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+
+  position: relative;
+
+  .progress {
+    grid-area: 1 / 2 / 2 / 5;
+  }
+  .LapsSum {
+    font-size: 40px;
+    font-weight: 900;
+    grid-area: 1 / 1 / 2 / 2;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+  .Rang {
+    grid-area: 1 / 5 / 2 / 6;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+}

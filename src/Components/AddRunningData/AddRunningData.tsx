@@ -16,11 +16,18 @@ function AddRunningData({
   km,
   KMHandler,
   AddToDB,
+  UserArray,
+  userBoss,
 }: any) {
   return (
     <List>
       <ListItem>
-        <ChooseUser user={user} setUser={setUser} />
+        <ChooseUser
+          user={user}
+          setUser={setUser}
+          UserArray={UserArray}
+          userBoss={userBoss}
+        />
       </ListItem>
       <Divider variant='middle' />
 

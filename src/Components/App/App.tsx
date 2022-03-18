@@ -17,6 +17,7 @@ import Chart from '../Chart/Chart';
 import ReturnRung from '../../helper/returnRung';
 //@ts-ignore
 import Header from '../Header/Header';
+import WhoIsBoss from '../../helper/WhoIsBoss';
 
 function App() {
   //State
@@ -30,6 +31,10 @@ function App() {
   const [km, setKm] = useState('');
 
   const [user, setUser] = useState('Andriy');
+
+  const UserArray = ['Andriy', 'Ivan'];
+
+  const [userBoss, setUserBoss] = useState(WhoIsBoss(UserArray));
 
   const [lapsSum, setLapsSum] = useState(GetLapsSum(user));
 
@@ -108,6 +113,7 @@ function App() {
       setLaps(data.laps);
       setKm(data.km);
     }
+    setUserBoss(WhoIsBoss(UserArray));
   }, [date, user]);
 
   //Handlers
@@ -156,8 +162,10 @@ function App() {
           RunkPrecentage={RunkPrecentage}
         >
           <AddRunningDataComponent
+            userBoss={userBoss}
             user={user}
             setUser={setUser}
+            UserArray={UserArray}
             date={date}
             setDate={setDate}
             laps={laps}

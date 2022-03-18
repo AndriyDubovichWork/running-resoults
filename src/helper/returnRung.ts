@@ -1,6 +1,6 @@
 const ReturnRung = (lapsSum: number) => {
   const RungsArr = [
-    { max: 0, min: 0, rang: 'loh' },
+    { max: 0, min: 0, rang: 'loser' },
     { max: 100, min: 1, rang: 'chicken' },
     { max: 500, min: 100, rang: 'koala' },
     { max: 1000, min: 500, rang: '1' },
@@ -10,7 +10,7 @@ const ReturnRung = (lapsSum: number) => {
     { max: 10000, min: 7500, rang: '5' },
   ];
 
-  let Rung = 'dont know';
+  let Rung = 'Cheater';
   let precent = 0;
   RungsArr.forEach((rungObj) => {
     if (lapsSum >= rungObj.min && lapsSum <= rungObj.max) {

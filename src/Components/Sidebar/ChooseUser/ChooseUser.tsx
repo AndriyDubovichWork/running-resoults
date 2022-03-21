@@ -1,6 +1,6 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import React from 'react';
-import BossIcon from './../../imgs/crown.png';
+import BossIcon from './../../../imgs/crown.png';
 interface IChooseUser {
   user: string;
   setUser: Function;

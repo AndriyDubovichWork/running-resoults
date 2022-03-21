@@ -2,7 +2,7 @@ import React from 'react';
 import ChooseUser from '../ChooseUser/ChooseUser';
 import { Button, Divider, List, ListItem, TextField } from '@mui/material';
 import Picker from '../Picker/Picker';
-import style from './AddRunningData.module.css';
+import style from './AddRunningData.module.scss';
 
 function AddRunningData({
   user,

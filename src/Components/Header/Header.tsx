@@ -4,6 +4,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import style from './Header.module.scss';
 import BorderLinearProgress from './../../StyledComponents/ProgressBar';
 import ReturnRung from '../../helper/returnRung';
+import ProgressBar from './ProgressBar/ProgressBar';
 
 export type HeaderType = {
   setIsSideBarOpen: Function;
@@ -32,12 +33,11 @@ const Header = (props: HeaderType) => {
         <div className={style.ProgressBar}>
           <div className={style.LapsSum}>{props.lapsSum}</div>
 
-          <div className={style.progress}>
-            <BorderLinearProgress
-              variant='determinate'
-              value={props.RunkPrecentage}
-            />
-          </div>
+          <ProgressBar
+            RunkPrecentage={props.RunkPrecentage}
+            IsSideBarOpen={props.IsSideBarOpen}
+            lapsSum={props.lapsSum}
+          />
           <div className={style.Rang}>{props.Runk}</div>
         </div>
       </div>

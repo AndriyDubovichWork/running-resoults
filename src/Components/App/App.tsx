@@ -10,14 +10,16 @@ import {
   GetLapsSum,
 } from './../../Data/data';
 
-import AddRunningDataComponent from '../AddRunningData/AddRunningData';
+import AddRunningDataComponent from '../Sidebar/AddRunningData/AddRunningData';
 import { Select, MenuItem } from '@mui/material';
-import Chart from '../Chart/Chart';
+import Chart from '../Main/Chart/Chart';
 
 import ReturnRung from '../../helper/returnRung';
 //@ts-ignore
 import Header from '../Header/Header';
 import WhoIsBoss from '../../helper/WhoIsBoss';
+import Main from './../Main/Main';
+import Sidebar from './../Sidebar/Sidebar';
 
 function App() {
   //State
@@ -39,6 +41,7 @@ function App() {
   const [lapsSum, setLapsSum] = useState(GetLapsSum(user));
 
   const [Runk, setRunk] = useState(ReturnRung(lapsSum).Rung);
+
   const [RunkPrecentage, setRunkPrecentage] = useState(
     ReturnRung(lapsSum).precent
   );
@@ -180,7 +183,7 @@ function App() {
       </div>
 
       <div className={style.Chart}>
-        <Chart UserData={UserData} />
+        <Main UserData={UserData} />
       </div>
     </div>
   );

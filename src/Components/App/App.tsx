@@ -14,6 +14,8 @@ import AddRunningDataComponent from '../Sidebar/AddRunningData/AddRunningData';
 import { Select, MenuItem } from '@mui/material';
 import Chart from '../Main/Chart/Chart';
 
+import { selector, useRecoilState, atom } from 'recoil';
+
 import ReturnRung from '../../helper/returnRung';
 //@ts-ignore
 import Header from '../Header/Header';
@@ -21,16 +23,24 @@ import WhoIsBoss from '../../helper/WhoIsBoss';
 import Main from './../Main/Main';
 import Sidebar from './../Sidebar/Sidebar';
 
+//Recoil
+import { DateA, LapsA, KmA, PullUpsA } from './../../Recoil/SidebarRecoil';
+
 function App() {
   //State
 
-  const [date, setDate] = useState<Date>(new Date(moment().format()));
+  const [date, setDate] = useRecoilState(DateA);
+  const [laps, setLaps] = useRecoilState(LapsA);
+  const [km, setKm] = useRecoilState(KmA);
+  const [pullUps, setPullUps] = useRecoilState(PullUpsA);
 
-  const [laps, setLaps] = useState('');
+  // const [date, setDate] = useState<Date>(new Date(moment().format()));
 
-  const [pullUps, setPullUps] = useState('');
+  // const [laps, setLaps] = useState('');
 
-  const [km, setKm] = useState('');
+  // const [pullUps, setPullUps] = useState('');
+
+  // const [km, setKm] = useState('');
 
   const [user, setUser] = useState('Andriy');
 

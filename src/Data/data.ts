@@ -75,7 +75,7 @@ export const AddRunningData = ({ pullUps, laps, km, date, user }: IUser) => {
     const keys = Object.keys(ObjWithUserArrays);
     let SelectedUser = '';
     let isRepeat = true;
-    let RepeatedId = 0;
+    let RepeatedId = -1;
 
     keys.forEach((arrayName) => {
       if (arrayName === user) {
@@ -93,7 +93,7 @@ export const AddRunningData = ({ pullUps, laps, km, date, user }: IUser) => {
     } else {
       isRepeat = false;
     }
-    if (!RepeatedId) {
+    if (RepeatedId < 0) {
       isRepeat = false;
     }
     if (!isRepeat) {

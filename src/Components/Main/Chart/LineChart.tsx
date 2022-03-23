@@ -21,9 +21,16 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
+const options = {
+  responsive: true,
+  interaction: {
+    mode: 'index' as const,
+    intersect: false,
+  },
+  stacked: false,
+};
 function LineChart({ chartData }: any) {
-  return <Line data={chartData} />;
+  return <Line data={chartData} options={options} />;
 }
 
 export default LineChart;

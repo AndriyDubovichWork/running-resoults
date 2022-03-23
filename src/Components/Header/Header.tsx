@@ -4,7 +4,8 @@ import Sidebar from '../Sidebar/Sidebar';
 import style from './Header.module.scss';
 import BorderLinearProgress from './../../StyledComponents/ProgressBar';
 import ReturnRung from '../../helper/returnRung';
-import ProgressBar from './ProgressBar/ProgressBar';
+
+import Runk from './Runk/Runk';
 
 export type HeaderType = {
   setIsSideBarOpen: Function;
@@ -12,7 +13,6 @@ export type HeaderType = {
   RunkPrecentage: number;
   Runk: string;
   lapsSum: number;
-  children: any;
 };
 
 const Header = (props: HeaderType) => {
@@ -29,20 +29,13 @@ const Header = (props: HeaderType) => {
             add to DB
           </button>
         </div>
-
-        <div className={style.ProgressBar}>
-          <div className={style.LapsSum}>{props.lapsSum}</div>
-
-          <ProgressBar
-            RunkPrecentage={props.RunkPrecentage}
-            IsSideBarOpen={props.IsSideBarOpen}
-            lapsSum={props.lapsSum}
-          />
-          <div className={style.Rang}>{props.Runk}</div>
-        </div>
+        <Runk
+          lapsSum={props.lapsSum}
+          RunkPrecentage={props.RunkPrecentage}
+          IsSideBarOpen={props.IsSideBarOpen}
+          Runk={props.Runk}
+        />
       </div>
-
-      <Sidebar {...props}>{props.children}</Sidebar>
     </>
   );
 };

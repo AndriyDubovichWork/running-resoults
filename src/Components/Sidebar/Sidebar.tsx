@@ -9,9 +9,14 @@ import {
   ListItemIcon,
 } from '@mui/material';
 import React from 'react';
-import { HeaderType } from '../Header/Header';
 
-const Sidebar = (props: HeaderType) => {
+type SideBarType = {
+  IsSideBarOpen: boolean;
+  setIsSideBarOpen: Function;
+  children: any;
+};
+
+const Sidebar = (props: SideBarType) => {
   const drawerWidth = 300;
 
   const handleDrawerToggle = () => {

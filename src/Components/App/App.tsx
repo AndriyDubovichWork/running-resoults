@@ -23,85 +23,73 @@ import WhoIsBoss from '../../helper/WhoIsBoss';
 import Main from './../Main/Main';
 import Sidebar from './../Sidebar/Sidebar';
 
-//Recoil
-import { DateA, LapsA, KmA, PullUpsA } from './../../Recoil/SidebarRecoil';
+//Recoil state Atoms
+import {
+  DateA,
+  LapsA,
+  KmA,
+  PullUpsA,
+  UserA,
+  UserBossA,
+  LapsSumA,
+  RunkA,
+  RunkPrecentA,
+  IsSideBarOpenA,
+  UserDataA,
+} from '../../Recoil/SidebarRecoilAtoms';
+import SortByDate from '../../helper/SortByDate';
 
 function App() {
   //State
-
+  const UserArray = ['Andriy', 'Ivan'];
+  //Band of Four
   const [date, setDate] = useRecoilState(DateA);
   const [laps, setLaps] = useRecoilState(LapsA);
   const [km, setKm] = useRecoilState(KmA);
   const [pullUps, setPullUps] = useRecoilState(PullUpsA);
 
-  // const [date, setDate] = useState<Date>(new Date(moment().format()));
+  const [user, setUser] = useRecoilState(UserA);
 
-  // const [laps, setLaps] = useState('');
+  const [userBoss, setUserBoss] = useRecoilState(UserBossA);
 
-  // const [pullUps, setPullUps] = useState('');
+  const [lapsSum, setLapsSum] = useRecoilState(LapsSumA);
 
-  // const [km, setKm] = useState('');
+  const [Runk, setRunk] = useRecoilState(RunkA);
+  const [RunkPrecentage, setRunkPrecentage] = useRecoilState(RunkPrecentA);
 
-  const [user, setUser] = useState('Andriy');
+  const [IsSideBarOpen, setIsSideBarOpen] = useRecoilState(IsSideBarOpenA);
 
-  const UserArray = ['Andriy', 'Ivan'];
-
-  const [userBoss, setUserBoss] = useState(WhoIsBoss(UserArray));
-
-  const [lapsSum, setLapsSum] = useState(GetLapsSum(user));
-
-  const [Runk, setRunk] = useState(ReturnRung(lapsSum).Rung);
-
-  const [RunkPrecentage, setRunkPrecentage] = useState(
-    ReturnRung(lapsSum).precent
-  );
-  const [UserData, setUserData] = useState({
-    labels: [1, 2],
-    datasets: [
-      {
-        label: 'hi',
-        data: [5, 50],
-        backgroundColor: [
-          'rgba(75,192,192,1)',
-          '#ecf0f1',
-          '#50AF95',
-          '#f3ba2f',
-          '#2a71d0',
-        ],
-        borderColor: 'black',
-        borderWidth: 2,
-      },
-    ],
-  });
-  const [IsSideBarOpen, setIsSideBarOpen] = useState(false);
+  const [UserData, setUserData] = useRecoilState(UserDataA);
 
   useEffect(() => {
-    const data = getMultipleData(user);
+    const data = SortByDate(getMultipleData(user));
+
     //if Find data in DataBase
     if (data) {
       setUserData({
         labels: data.map((run: any) => run.date),
+
         datasets: [
           {
             label: 'km',
             data: data.map((run: any) => run.km),
             backgroundColor: ['red'],
             borderColor: 'red',
-            borderWidth: 2,
+            borderWidth: 4,
           },
           {
             label: 'laps',
             data: data.map((run: any) => run.laps),
             backgroundColor: ['yellow'],
             borderColor: 'yellow',
-            borderWidth: 2,
+            borderWidth: 4,
           },
           {
             label: "Pull Up's",
             data: data.map((run: any) => run.pullUps),
             backgroundColor: ['blue'],
             borderColor: 'blue',
-            borderWidth: 2,
+            borderWidth: 4,
           },
         ],
       });
@@ -152,7 +140,7 @@ function App() {
       );
     }
   };
-  //Add data from forms to Local storage
+  //Add data from form to Local storage
   const AddToDB = () => {
     AddRunningData({
       pullUps: parseInt(pullUps),
@@ -161,7 +149,7 @@ function App() {
       date: typeof date !== 'string' ? date.toISOString().split('T')[0] : date,
       user: user,
     });
-    setIsSideBarOpen(!IsSideBarOpen);
+    // setIsSideBarOpen(!IsSideBarOpen);
   };
   //JSX
   return (
@@ -173,6 +161,16 @@ function App() {
           lapsSum={lapsSum}
           Runk={Runk}
           RunkPrecentage={RunkPrecentage}
+        ></Header>
+      </div>
+
+      <div className={style.Chart}>
+        <Main UserData={UserData} />
+      </div>
+      <div className={style.SideBar}>
+        <Sidebar
+          IsSideBarOpen={IsSideBarOpen}
+          setIsSideBarOpen={setIsSideBarOpen}
         >
           <AddRunningDataComponent
             userBoss={userBoss}
@@ -189,11 +187,7 @@ function App() {
             KMHandler={KMHandler}
             AddToDB={AddToDB}
           />
-        </Header>
-      </div>
-
-      <div className={style.Chart}>
-        <Main UserData={UserData} />
+        </Sidebar>
       </div>
     </div>
   );

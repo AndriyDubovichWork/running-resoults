@@ -167,6 +167,7 @@ function App() {
       <div className={style.Chart}>
         <Main UserData={UserData} />
       </div>
+
       <div className={style.SideBar}>
         <Sidebar
           IsSideBarOpen={IsSideBarOpen}

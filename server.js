@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
   ];
 
   res.json(customers);
-  //
+
   // GetData();
 });
 
